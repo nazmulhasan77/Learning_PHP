@@ -18,6 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Save the updated array back to the JSON file
     file_put_contents('books.json', json_encode($booksArray, JSON_PRETTY_PRINT));
+
+    // Redirect to the same page to avoid resubmission on refresh
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
 }
 
 // Display the table

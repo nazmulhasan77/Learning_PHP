@@ -26,5 +26,19 @@
         "available": true,
         "pages": 100,
         "isbn": 9785267006328
+    },
+    {
+        "title": "Book Title",
+        "author": "John",
+        "available": true,
+        "pages": 100,
+        "isbn": 9785267006328
+    },
+    {
+        "title": "One Hundred Years",
+        "author": "Gabriel Garcia ",
+        "available": true,
+        "pages": 200,
+        "isbn": 9785267006325
     }
 ]
