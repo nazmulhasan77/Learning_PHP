@@ -31,11 +31,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Fetch all books from the database
-$result = $conn->query("SELECT * FROM books");
+// Initialize search and sort variables
+$searchTerm = '';
+$orderBy = 'title'; // Default sort order
+$orderDirection = 'ASC'; // Default sort direction
+
+// Check if search is set
+if (isset($_GET['search'])) {
+    $searchTerm = $_GET['search'];
+}
+
+// Check if order is set
+if (isset($_GET['order_by'])) {
+    $orderBy = $_GET['order_by'];
+}
+if (isset($_GET['order_direction'])) {
+    $orderDirection = $_GET['order_direction'];
+}
+
+// Prepare the SQL query with search and sorting
+$sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? ORDER BY $orderBy $orderDirection";
+$stmt = $conn->prepare($sql);
+$searchWildcard = "%$searchTerm%";
+$stmt->bind_param("ss", $searchWildcard, $searchWildcard);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Display the table
 echo "<h2>Book List</h2>";
+
+// Search form
+echo '<form method="GET">
+    <input type="text" name="search" placeholder="Search by title or author" value="' . htmlspecialchars($searchTerm) . '">
+    <button type="submit">Search</button>
+</form>';
+
+// Sort options
+echo '<form method="GET" style="display:inline;">
+    <select name="order_by">
+        <option value="title"' . ($orderBy === 'title' ? ' selected' : '') . '>Title</option>
+        <option value="author"' . ($orderBy === 'author' ? ' selected' : '') . '>Author</option>
+        <option value="pages"' . ($orderBy === 'pages' ? ' selected' : '') . '>Pages</option>
+    </select>
+    <select name="order_direction">
+        <option value="ASC"' . ($orderDirection === 'ASC' ? ' selected' : '') . '>Ascending</option>
+        <option value="DESC"' . ($orderDirection === 'DESC' ? ' selected' : '') . '>Descending</option>
+    </select>
+    <button type="submit">Sort</button>
+</form>';
+
 echo "<table border='1'>
 <tr>
     <th>Title</th>
@@ -58,7 +102,8 @@ while ($book = $result->fetch_assoc()) {
 
 echo "</table>";
 
-// Close the database connection
+// Close the statement and database connection
+$stmt->close();
 $conn->close();
 ?>
 
