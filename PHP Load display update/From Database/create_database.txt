@@ -1,0 +1,23 @@
+Create the Database
+CREATE DATABASE library;
+
+Create the books Table
+USE library;
+
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    available BOOLEAN DEFAULT 1,
+    pages INT NOT NULL,
+    isbn BIGINT NOT NULL
+);
+
+
+INSERT INTO books (title, author, available, pages, isbn) VALUES 
+('To Kill A Mockingbird', 'Harper Lee', 1, 336, 9780061120084),
+('1984', 'George Orwell', 1, 267, 9780547249643),
+('One Hundred Years Of Solitude', 'Gabriel Garcia Marquez', 0, 457, 9785267006323);
+
+
+

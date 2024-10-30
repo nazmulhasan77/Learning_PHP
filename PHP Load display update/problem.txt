@@ -4,7 +4,8 @@ Store the following data in a JSON file in JSON format, then retrieve it from th
 
 Send data elements from a form to this file using the POST method, and display the updated table with an additional row.
 
-Convert the updated array back to JSON and update the JSON file.
+1. Convert the updated array back to JSON and update the JSON file. 
+2.  store and retrieve data from a database 
 
 Data for JSON file:
 
